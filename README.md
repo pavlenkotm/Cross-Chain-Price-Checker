@@ -1,75 +1,138 @@
 # Cross-Chain Price Checker
 
-A powerful Python library and CLI tool for comparing cryptocurrency token prices across multiple decentralized exchanges (DEXs) and centralized exchanges (CEXs) to identify arbitrage opportunities.
+🚀 **A Complete Ecosystem for Cryptocurrency Price Tracking and Arbitrage Detection**
 
-## Features
+A comprehensive Python platform combining a powerful library, REST API, WebSocket server, Telegram/Discord bots, and trading simulator for comparing cryptocurrency prices across multiple blockchains and exchanges.
 
-- **Multi-Chain Support**: Compare prices across Ethereum, BSC, and Solana
-- **DEX Integration**:
-  - Uniswap V2 & V3 (Ethereum)
-  - PancakeSwap V2 (BSC)
-  - Raydium (Solana)
-- **CEX Integration**:
-  - Binance
-  - Bybit
-- **Automatic Token Resolution**: Uses CoinGecko API to resolve token addresses across chains
-- **Arbitrage Detection**: Automatically identifies price differences and potential arbitrage opportunities
-- **Beautiful CLI**: Rich terminal interface with formatted tables and color-coded results
-- **Async Architecture**: Fast concurrent price fetching from all exchanges
-- **Configurable**: Flexible YAML configuration for customizing exchanges and RPC endpoints
+[![CI/CD](https://github.com/pavlenkotm/Cross-Chain-Price-Checker/workflows/CI/badge.svg)](https://github.com/pavlenkotm/Cross-Chain-Price-Checker/actions)
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+[![Python](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
 
-## Installation
+## ✨ Features
 
-### From Source
+### Core Functionality
+- 🌐 **Multi-Chain Support**: Ethereum, BSC (BNB Chain), Solana
+- 💱 **8+ Exchange Integrations**:
+  - **DEX**: Uniswap V2/V3, PancakeSwap V2, Raydium
+  - **CEX**: Binance, Bybit, Kraken, OKX
+- 🔍 **Automatic Token Resolution**: CoinGecko API integration
+- ⚡ **Real-Time Arbitrage Detection**: Sub-second opportunity identification
+- 📊 **Beautiful CLI**: Rich terminal interface with formatted tables
+
+### Ecosystem Components
+- 🌐 **REST API**: FastAPI-powered server with full CRUD operations
+- 📡 **WebSocket Server**: Real-time price streaming
+- 🤖 **Telegram Bot**: Interactive price checking and alerts
+- 💬 **Discord Bot**: Community integration
+- 📈 **Trading Simulator**: Backtest strategies with historical data
+- 💼 **Portfolio Tracker**: Monitor holdings across exchanges
+- 🔔 **Alert System**: Custom price and arbitrage notifications
+- 📊 **Analytics Dashboard**: Prometheus + Grafana monitoring
+- 🗄️ **Database Layer**: PostgreSQL with historical data tracking
+- 🐳 **Docker Support**: Full containerized deployment
+
+## 🚀 Installation
+
+### Quick Start with Docker (Recommended)
 
 ```bash
 # Clone the repository
 git clone https://github.com/pavlenkotm/Cross-Chain-Price-Checker.git
 cd Cross-Chain-Price-Checker
 
-# Create a virtual environment (recommended)
+# Start the full stack
+docker-compose up -d
+
+# Access services:
+# - API: http://localhost:8000/api/docs
+# - WebSocket: ws://localhost:8000/api/v1/ws/prices
+# - Grafana: http://localhost:3000 (admin/admin)
+# - Prometheus: http://localhost:9090
+```
+
+### From Source
+
+```bash
+# Clone and setup
+git clone https://github.com/pavlenkotm/Cross-Chain-Price-Checker.git
+cd Cross-Chain-Price-Checker
+
+# Run automated setup
+./scripts/setup.sh
+
+# Or manual installation:
 python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
-
-# Install dependencies
-pip install -r requirements.txt
-
-# Install the package
+source venv/bin/activate
+pip install -r requirements-full.txt
 pip install -e .
 ```
 
-### Using pip (once published)
+### Using pip (PyPI)
 
 ```bash
 pip install cross-chain-price-checker
+
+# Full installation with all features
+pip install cross-chain-price-checker[full]
 ```
 
-## Quick Start
+## 🎯 Quick Start
 
-### Command Line Usage
-
-Check a single token price:
+### 1. Command Line Interface
 
 ```bash
+# Check single token
 ccpc check SOL
-```
 
-Compare multiple tokens:
-
-```bash
+# Compare multiple tokens
 ccpc compare BTC ETH SOL
+
+# With custom config
+ccpc check ETH --config config.yaml --verbose
 ```
 
-With custom configuration:
+### 2. REST API
 
 ```bash
-ccpc check ETH --config config.yaml
+# Start API server
+./scripts/run_api.sh
+
+# Or with Docker
+docker-compose up api
+
+# Access interactive docs
+open http://localhost:8000/api/docs
 ```
 
-Enable verbose logging:
+### 3. Telegram Bot
 
 ```bash
-ccpc check BTC --verbose
+# Set your bot token
+export TELEGRAM_BOT_TOKEN="your_token_here"
+
+# Run bot
+python -m cross_chain_price_checker.bots.telegram_bot
+
+# Or with Docker
+docker-compose --profile bots up telegram_bot
+```
+
+### 4. WebSocket Streaming
+
+```javascript
+const ws = new WebSocket('ws://localhost:8000/api/v1/ws/prices');
+
+ws.onopen = () => {
+  ws.send(JSON.stringify({
+    action: 'subscribe',
+    token: 'SOL'
+  }));
+};
+
+ws.onmessage = (event) => {
+  const data = JSON.parse(event.data);
+  console.log('Price update:', data);
+};
 ```
 
 ### Python Library Usage
