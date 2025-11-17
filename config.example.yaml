@@ -1,0 +1,61 @@
+# Cross-Chain Price Checker Configuration
+
+# RPC Endpoints
+rpc:
+  ethereum: "https://eth.public-rpc.com"
+  bsc: "https://bsc-dataseed.binance.org/"
+  solana: "https://api.mainnet-beta.solana.com"
+
+# API Keys (optional, but recommended for production use)
+api_keys:
+  coingecko: ""  # CoinGecko API key (optional)
+  binance: ""    # Binance API key (optional)
+  bybit: ""      # Bybit API key (optional)
+
+# Exchange Configuration
+exchanges:
+  dex:
+    # Uniswap V2 Router
+    uniswap_v2:
+      enabled: true
+      router: "0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D"
+      factory: "0x5C69bEe701ef814a2B6a3EDD4B1652CB9cc5aA6f"
+
+    # Uniswap V3 Router
+    uniswap_v3:
+      enabled: true
+      router: "0xE592427A0AEce92De3Edee1F18E0157C05861564"
+      factory: "0x1F98431c8aD98523631AE4a59f267346ea31F984"
+      quoter: "0xb27308f9F90D607463bb33eA1BeBb41C27CE5AB6"
+
+    # PancakeSwap V2 (BSC)
+    pancakeswap_v2:
+      enabled: true
+      router: "0x10ED43C718714eb63d5aA57B78B54704E256024E"
+      factory: "0xcA143Ce32Fe78f1f7019d7d551a6402fC5350c73"
+
+    # Raydium (Solana)
+    raydium:
+      enabled: true
+      program_id: "675kPX9MHTjS2zt1qfr1NYHuzeLXfQM9H24wFSUt1Mp8"
+
+  cex:
+    binance:
+      enabled: true
+      base_url: "https://api.binance.com"
+
+    bybit:
+      enabled: true
+      base_url: "https://api.bybit.com"
+
+# Price Comparison Settings
+comparison:
+  min_price_difference_percent: 0.5  # Minimum % difference to highlight
+  timeout_seconds: 10
+  max_retries: 3
+
+# Display Settings
+display:
+  show_all_exchanges: true
+  sort_by: "price_diff"  # Options: price, price_diff, exchange
+  highlight_arbitrage: true
